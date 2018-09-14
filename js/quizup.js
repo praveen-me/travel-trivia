@@ -1,95 +1,145 @@
-  var questionArray = [
-    "What is the capital of Australia?",
-    "What is the capital of Liberia?",
-    "What is the capital of Taiwan?",
-    "What is the capital of Japan?",
-    "What is the capital of China?",
-    "What is the capital of Turkey?",
-    "What is the capital of Colombia?",
-    "What is the capital of India?"
-  ];
+var questionArray = [
+  "What is the capital of Australia?",
+  "What is the capital of Liberia?",
+  "What is the capital of Taiwan?",
+  "What is the capital of Japan?",
+  "What is the capital of China?",
+  "What is the capital of Turkey?",
+  "What is the capital of Colombia?",
+  "What is the capital of India?"
+];
 
-  var answerArray = [
-    ["Canberra", "Melbourne", "Sydney", "Darwin"],
-    ["Arthington", "Monrovia", "Tuzon", "Marshall"],
-    ["Tainan City", "Taichung", "Taipei", "Hsinchu"],
-    ["Kyoto", "Hiroshima", "Tokyo", "Osaka"],
-    ["Hong Kong", "Macau", "Shanghai", "Beijing"],
-    ["Ankara", "Istanbul", "Antalya", "Bursa"],
-    ["Medellin", "Bogota", "Cartagena", "Cali"],
-    ["Mumbai", "Hyderabad", "Bangalore", "New Delhi"]
-  ];
+var answerArray = [
+  ["Canberra", "Melbourne", "Sydney", "Darwin"],
+  ["Arthington", "Monrovia", "Tuzon", "Marshall"],
+  ["Tainan City", "Taichung", "Taipei", "Hsinchu"],
+  ["Kyoto", "Hiroshima", "Tokyo", "Osaka"],
+  ["Hong Kong", "Macau", "Shanghai", "Beijing"],
+  ["Ankara", "Istanbul", "Antalya", "Bursa"],
+  ["Medellin", "Bogota", "Cartagena", "Cali"],
+  ["Mumbai", "Hyderabad", "Bangalore", "New Delhi"]
+];
 
-  var correctAnswers = [
-    "A. Canberra",
-    "B. Monrovia",
-    "C. Taipei",
-    "C. Tokyo",
-    "D. Beijing",
-    "A. Ankara",
-    "B. Bogota",
-    "D. New Delhi"
-  ];
+var correctAnswers = [
+  "A. Canberra",
+  "B. Monrovia",
+  "C. Taipei",
+  "C. Tokyo",
+  "D. Beijing",
+  "A. Ankara",
+  "B. Bogota",
+  "D. New Delhi"
+];
 
-  // //Select Start Quiz Button 
-  // let startBtn = document.getElementById('start-button');
+// let correctAnswers = 0;
 
-  // //timer element
-  // let timer = document.querySelector('.time');
+let wrongAnswers = 0;
 
-  // timer function
-  var time = function (x) {
-    if (x === 0) {
-      // alert('Times Up');
-      return;
-    }
-    timer.innerHTML = x;
-    return setTimeout(() => {time(--x)}, 1000);
+let unAnswered = 0;
+
+// //Select Start Quiz Button 
+let startBtn = document.getElementById('start-button');
+
+//timer element
+let timer = document.querySelector('.time');
+
+// timer function
+var time = function (x) {
+  if (x === 0) {
+    // alert('Times Up');
+    return;
+  }
+  timer.innerHTML = x;
+  console.log(x);
+  return setTimeout(() => { time(--x) }, 1000);
+}
+
+let displayOptions = function(ansarr, index) {
+  let optionBlock = '';
+  return optionBlock += ansarr[index].map((item) => {
+    return(
+      `<button class="option" style="display:block">${item}</button>`
+    )
+  }).join('');
+}
+
+let displayQnABlock = function(qnsarr, ansarr, index) {
+  return `<div class="question">
+  ${qnsarr[index]}
+  </div>
+  <div class="options_block">
+    ${displayOptions(ansarr, index)}
+  </div>`;
+}
+
+let checkOptions = function(elm, correctArr, index) {
+  elm.forEach(option => {
+    option.addEventListener('click', (e) => {
+      if(e.target.innerHTML === correctArr[index].split(' ')[1]) {
+        alert("correct");
+      } else {
+        alert('wrong')
+      }
+    });
+  }); 
+}
+
+
+
+
+//repeat function
+let repeat = function (i, elmLen) {
+  if (i >= elmLen) {
+    return; // call end here
   }
 
-  //repeat function
-  let repeat = function(i, n) {
-    if( i >= n) {
-      return;
-    }
+  time(30);
 
-    console.log(i);
-    return repeat(++i,n);
-  }
+  questionBlock.innerHTML = displayQnABlock(questionArray, answerArray, i);
 
-  //get Questions
-  // let displayQuestion = function(item) {
-  //   return `<p class="question">${item}</p>`
-  // }
+  let options = document.querySelectorAll('.option');  
+  checkOptions(options, correctAnswers, i);
+  
 
-  // let displayOptions = function(optionArray) {
-  //   return `<button class="option">${optionArray}</button>`;
-  // }
-
-
-  let startGame = function () {
-    // time(30);
-    // let main = document.querySelector('main');
-    // questionArray.forEach((question, i) => {
-    //   main.innerHTML = displayQuestion(question);
-    // });
-
-    // answerArray[0].forEach(item => {
-    //     main.innerHTML += displayOptions(item); 
-    // });
-  }
+  // displayOptions()
+  return setTimeout(() => {repeat(++i, elmLen)}, 30000);
+}
 
 
 
-  //Initialize function
-  function init() {
-    startBtn.addEventListener('click', startGame);
+// let displayOptions = function(optionArray) {
+//   return `<button class="option">${optionArray}</button>`;
+// }
 
-    // timer();
-  }
 
-  init()
+let startGame = function () {
+  repeat(0, questionArray.length);
+   
+  // let main = document.querySelector('main');
+  // questionArray.forEach((question, i) => {
+  //   main.innerHTML = displayQuestion(question);
+  // });
+
+  // answerArray[0].forEach(item => {
+  //     main.innerHTML += displayOptions(item); 
+  // });
+
+
+}
+
+let questionBlock = document.querySelector('.que-n-ans_block');
+
+
+//Initialize function
+function init() {
+  startBtn.addEventListener('click', startGame);
+
 
   
+}
+
+init()
+
+
 
   // repeat(0,5)
