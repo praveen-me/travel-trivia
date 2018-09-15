@@ -37,23 +37,33 @@ let wrongAnswersNo = 0;
 
 let unAnsweredNo = 0;
 
+let timecount = 30;
+
+let interval = '';
 // //Select Start Quiz Button 
 let startBtn = document.getElementById('start-button');
-
 //timer element
 let timer = document.querySelector('.timer_block');
 
 let questionBlock = document.querySelector('.que-n-ans_block');
 
 // timer function
-var time = function (x) {
-  if (x === 0) {
+var time = function (questionIndex) {
+  // clearTimeout(time);
+  if (timecount === 0) {
     // alert('Times Up');
+    repeat(questionIndex + 1, questionArray.length);
     return;
   }
-  timer.innerHTML = `<p class="center">Time Left : <span class="time">${x}</span></p>`
-  console.log(x);
-  return setTimeout(() => { time(--x) }, 1000);
+  timer.innerHTML = `<p class="center">Time Left : <span class="time">${timecount}</span></p>`
+  console.log(timecount);
+
+  timecount--;
+
+  interval = setTimeout(() => {
+    return time(questionIndex);
+  }, 1000);
+  // return time();
 }
 
 let displayOptions = function(ansarr, index) {
@@ -90,28 +100,29 @@ let showBlock = function() {
 let checkOptions = function(elm, correctArr, index) {
   elm.forEach(option => {
     option.addEventListener('click', (e) => {
-      if(e.target.innerHTML === correctArr[index].split(' ')[1]) {
+      if (e.target.innerHTML === correctArr[index].split(' ')[1]) {
         correctAnswersNo++;
+        // clearTimeout(time);
+
         hideBlocks();
         correctAnswerBlock.style.display = 'block';
         
         setTimeout(() => {
           showBlock();
           correctAnswerBlock.style.display = 'none'; 
+          repeat(1+index, questionArray.length);
         }, 1500);
-        
-        repeat(1+index, questionArray.length);
       } else {
         wrongAnswersNo++;
+        // clearTimeout(time);
         hideBlocks();
         wrongAnswerBlock.style.display = 'block';
 
         setTimeout(() => {
           showBlock();
-          wrongAnswerBlock.style.display = 'none'; 
+          wrongAnswerBlock.style.display = 'none';
+          repeat(1+index, questionArray.length); 
         }, 1500);
-        
-        repeat(1+index, questionArray.length);
       }
     });
   }); 
@@ -120,28 +131,28 @@ let checkOptions = function(elm, correctArr, index) {
 //repeat function
 let repeat = function (i, elmLen) {
   if (i >= elmLen) {
-    // alert('Exit')
+    // alert('Exit')  
     return; // call end here
   }
+  
+  timecount = 30;
+  clearTimeout(interval);
 
-  time(30);
+  time(i);
 
-  questionBlock.innerHTML = displayQnABlock(questionArray, answerArray, i);
+  questionBlock.innerHTML = displayQnABlock(questionArray, answerArray, i);  
 
   let options = document.querySelectorAll('.option');  
   checkOptions(options, correctAnswers, i);
-  
-  // displayOptions()
-  return setTimeout(() => {repeat(++i, elmLen)}, 30000);
+   
+  // return setTimeout(() => {repeat(++i, elmLen)}, 30000);
+  // clearTimeout(time);
 }
 
 let startGame = function () {
   repeat(0, questionArray.length);
   startBtn.style.display = 'none';
 }
-
-
-
 
 //Initialize function
 function init() {
