@@ -8,8 +8,8 @@ img {
 }
 
 .wrapper {
-  max-width : 960px;
-  width : 100%;
+  max-width : 700px;
+  width : 90%;
   margin : 0 auto;
 }
 
@@ -22,4 +22,8 @@ img {
 }
 .color-white {
   color: #fff;
+}
+
+button, a {
+  cursor: pointer;
 }

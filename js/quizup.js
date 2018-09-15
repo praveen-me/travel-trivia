@@ -31,17 +31,19 @@ var correctAnswers = [
   "D. New Delhi"
 ];
 
-// let correctAnswers = 0;
+let correctAnswersNo = 0;
 
-let wrongAnswers = 0;
+let wrongAnswersNo = 0;
 
-let unAnswered = 0;
+let unAnsweredNo = 0;
 
 // //Select Start Quiz Button 
 let startBtn = document.getElementById('start-button');
 
 //timer element
-let timer = document.querySelector('.time');
+let timer = document.querySelector('.timer_block');
+
+let questionBlock = document.querySelector('.que-n-ans_block');
 
 // timer function
 var time = function (x) {
@@ -49,7 +51,7 @@ var time = function (x) {
     // alert('Times Up');
     return;
   }
-  timer.innerHTML = x;
+  timer.innerHTML = `<p class="center">Time Left : <span class="time">${x}</span></p>`
   console.log(x);
   return setTimeout(() => { time(--x) }, 1000);
 }
@@ -58,38 +60,67 @@ let displayOptions = function(ansarr, index) {
   let optionBlock = '';
   return optionBlock += ansarr[index].map((item) => {
     return(
-      `<button class="option" style="display:block">${item}</button>`
+      `<button class="option">${item}</button>`
     )
   }).join('');
 }
 
 let displayQnABlock = function(qnsarr, ansarr, index) {
   return `<div class="question">
-  ${qnsarr[index]}
+    <p class="question">Q${index+1}- ${qnsarr[index]}</p>
   </div>
   <div class="options_block">
     ${displayOptions(ansarr, index)}
   </div>`;
 }
 
+let correctAnswerBlock = document.querySelector('.correct');
+let wrongAnswerBlock = document.querySelector('.wrong');
+
+let hideBlocks = function() {
+  timer.style.display = 'none';
+  questionBlock.style.display = 'none';
+}
+
+let showBlock = function() {
+  timer.style.display = 'block';
+  questionBlock.style.display = 'block';
+}
+
 let checkOptions = function(elm, correctArr, index) {
   elm.forEach(option => {
     option.addEventListener('click', (e) => {
       if(e.target.innerHTML === correctArr[index].split(' ')[1]) {
-        alert("correct");
+        correctAnswersNo++;
+        hideBlocks();
+        correctAnswerBlock.style.display = 'block';
+        
+        setTimeout(() => {
+          showBlock();
+          correctAnswerBlock.style.display = 'none'; 
+        }, 1500);
+        
+        repeat(1+index, questionArray.length);
       } else {
-        alert('wrong')
+        wrongAnswersNo++;
+        hideBlocks();
+        wrongAnswerBlock.style.display = 'block';
+
+        setTimeout(() => {
+          showBlock();
+          wrongAnswerBlock.style.display = 'none'; 
+        }, 1500);
+        
+        repeat(1+index, questionArray.length);
       }
     });
   }); 
 }
 
-
-
-
 //repeat function
 let repeat = function (i, elmLen) {
   if (i >= elmLen) {
+    // alert('Exit')
     return; // call end here
   }
 
@@ -100,46 +131,21 @@ let repeat = function (i, elmLen) {
   let options = document.querySelectorAll('.option');  
   checkOptions(options, correctAnswers, i);
   
-
   // displayOptions()
   return setTimeout(() => {repeat(++i, elmLen)}, 30000);
 }
 
-
-
-// let displayOptions = function(optionArray) {
-//   return `<button class="option">${optionArray}</button>`;
-// }
-
-
 let startGame = function () {
   repeat(0, questionArray.length);
-   
-  // let main = document.querySelector('main');
-  // questionArray.forEach((question, i) => {
-  //   main.innerHTML = displayQuestion(question);
-  // });
-
-  // answerArray[0].forEach(item => {
-  //     main.innerHTML += displayOptions(item); 
-  // });
-
-
+  startBtn.style.display = 'none';
 }
 
-let questionBlock = document.querySelector('.que-n-ans_block');
+
 
 
 //Initialize function
 function init() {
   startBtn.addEventListener('click', startGame);
-
-
-  
 }
 
 init()
-
-
-
-  // repeat(0,5)

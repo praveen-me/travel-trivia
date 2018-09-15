@@ -2,6 +2,7 @@
    v2.0 | 20110126
    License: none (public domain)
 */
+@import url("https://fonts.googleapis.com/css?family=Raleway:200,300,400,400i,500,500i,600,700");
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -53,8 +54,8 @@ img {
   width: 100%; }
 
 .wrapper {
-  max-width: 960px;
-  width: 100%;
+  max-width: 700px;
+  width: 90%;
   margin: 0 auto; }
 
 .center {
@@ -66,13 +67,50 @@ img {
 .color-white {
   color: #fff; }
 
+button, a {
+  cursor: pointer; }
+
 body {
   background-color: crimson;
-  color: #fff; }
+  color: #fff;
+  font-family: 'Raleway', sans-serif; }
 
 header {
   text-align: center;
   font-size: 2.5rem;
+  margin: 2rem 0;
+  font-weight: 500; }
+
+.start_button {
+  font-size: 1.8rem;
+  width: 300px;
+  margin: 3rem 0;
+  border-radius: 5px;
+  border: 2px solid #5a5050;
+  padding: 10px 0; }
+  .start_button:hover {
+    background: #30deb7;
+    border: 2px solid #186d5a; }
+
+.timer_block {
+  font-size: 1.4rem;
+  font-weight: 300; }
+
+.question {
+  font-size: 1.5rem;
   margin: 2rem 0; }
+
+.option {
+  font-family: 'Raleway', sans-serif;
+  display: block;
+  border: none;
+  font-size: 1.5rem;
+  width: 100%;
+  border-radius: 5px;
+  margin: 1.5rem 0;
+  padding: 10px 0; }
+
+.correct, .wrong {
+  display: none; }
 
 /*# sourceMappingURL=style.css.map */
