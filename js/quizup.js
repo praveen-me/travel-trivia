@@ -48,22 +48,20 @@ let timer = document.querySelector('.timer_block');
 let questionBlock = document.querySelector('.que-n-ans_block');
 
 // timer function
-var time = function (questionIndex) {
+let time = function (questionIndex) {
   // clearTimeout(time);
   if (timecount === 0) {
-    // alert('Times Up');
+    unAnsweredNo++;
     repeat(questionIndex + 1, questionArray.length);
     return;
   }
-  timer.innerHTML = `<p class="center">Time Left : <span class="time">${timecount}</span></p>`
-  console.log(timecount);
+  timer.innerHTML = `<p class="center">Time Left : <span class="time">${timecount}</span></p>`;
 
   timecount--;
 
   interval = setTimeout(() => {
     return time(questionIndex);
   }, 1000);
-  // return time();
 }
 
 let displayOptions = function(ansarr, index) {
@@ -125,13 +123,25 @@ let checkOptions = function(elm, correctArr, index) {
         }, 1500);
       }
     });
-  }); 
+  });
+}
+
+let displayStats = function() {
+  let main = document.querySelector('main');
+  main.innerHTML =  `
+    <h2 class="stat_header">Your Statics</h2>
+    <div class="display_stat_block">
+      <div class="answer_count_block"><span> Correct Answers = </span><span id="correct-answer">${correctAnswersNo}</span></div>
+      <div class="answer_count_block"><span> Wrong Answers = </span><span id="wrong-answer">${wrongAnswersNo}</span></div>
+      <div class="answer_count_block"><span> UnAnswered = </span><span id="answer-not">${unAnsweredNo}</span></div>  
+    </div>
+  `
 }
 
 //repeat function
 let repeat = function (i, elmLen) {
   if (i >= elmLen) {
-    // alert('Exit')  
+    displayStats();  
     return; // call end here
   }
   
@@ -144,9 +154,6 @@ let repeat = function (i, elmLen) {
 
   let options = document.querySelectorAll('.option');  
   checkOptions(options, correctAnswers, i);
-   
-  // return setTimeout(() => {repeat(++i, elmLen)}, 30000);
-  // clearTimeout(time);
 }
 
 let startGame = function () {
@@ -156,7 +163,7 @@ let startGame = function () {
 
 //Initialize function
 function init() {
-  startBtn.addEventListener('click', startGame);
+  startBtn.addEventListener('click', startGame); 
 }
 
 init()
